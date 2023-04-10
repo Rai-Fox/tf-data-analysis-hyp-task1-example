@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import binom
+from statsmodels.stats.proportion import proportions_ztest
 
 chat_id = 222287279 # Ваш chat ID, не меняйте название переменной
 
@@ -12,5 +12,4 @@ def solution(
         y_cnt: int,
 ) -> bool:
     alpha = 0.03
-    p_value = binom(n=y_cnt, p=x_success/x_cnt).cdf(y_success)
-    return p_value > 1 - alpha
+    return proportions_ztest([x_success, y_success], [x_cnt, y_cnt], alternative='smaller')[1] < alpha
